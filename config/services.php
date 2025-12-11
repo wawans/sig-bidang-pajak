@@ -35,4 +35,26 @@ return [
         ],
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => '/auth/google/callback',
+    ],
+
+    'recaptcha' => [
+        'site_key' => env('GOOGLE_RECAPTCHA_SITE_KEY'),
+        'secret_key' => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
+    ],
+
+    'map' => [
+        'google' => [
+            'token' => env('GOOGLE_MAP_TOKEN'),
+        ],
+        'mapbox' => [
+            'token' => env('MAPBOX_MAP_TOKEN'),
+        ],
+        'microsoft' => [
+            'token' => env('MICROSOFT_MAP_TOKEN'),
+        ],
+    ],
 ];

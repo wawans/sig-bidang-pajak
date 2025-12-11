@@ -21,7 +21,6 @@ return new class extends Migration
             $table->timestamp('password_updated_at')->nullable();
             $table->timestamp('password_expired_at')->nullable();
             $table->rememberToken();
-            $table->boolean('status_aktif')->default(true);
             $table->json('setting')->nullable();
             $table->userTimestamps();
             $table->userSoftDeletes();

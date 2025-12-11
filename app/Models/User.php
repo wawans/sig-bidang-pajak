@@ -40,7 +40,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         'password',
         'password_updated_at',
         'password_expired_at',
-        'status_aktif',
         'setting',
     ];
 
@@ -78,7 +77,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             'password' => 'hashed',
             'password_updated_at' => 'datetime',
             'password_expired_at' => 'datetime',
-            'status_aktif' => 'boolean',
             'setting' => 'json',
         ];
     }
@@ -173,7 +171,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
                     ...$this->toArray(),
                     'password_updated_at' => $this->password_updated_at,
                     'password_expired_at' => $this->password_expired_at,
-                    'status_admin' => $this->status_admin,
+                    'isAdmin' => $this->isAdmin(),
                     'setting' => $this->setting,
                     'roles' => $this->getCachedRoleNames(),
                     'permissions' => $this->getCachedPermissionNames(),

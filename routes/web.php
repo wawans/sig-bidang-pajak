@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MapController;
+use App\Http\Controllers\Settings\IndexSettingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Account\GeneralAccountController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\Account\PasswordAccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayerController;
 use App\Http\Controllers\LayerGroupController;
-use App\Http\Controllers\MapProviderController;
 use App\Http\Controllers\Permission\PermissionController;
 use App\Http\Controllers\Permission\RoleController;
 use App\Http\Controllers\StyleController;
@@ -41,8 +41,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::resource('layer', LayerController::class)->names('layer');
             Route::resource('layer-group', LayerGroupController::class)->names('layer-group');
             Route::resource('style', StyleController::class)->names('style');
-            Route::post('provider/{provider}', [MapProviderController::class, 'store'])->name('provider.store');
-            Route::get('provider', [MapProviderController::class, 'index'])->name('provider.index');
         });
 
         Route::name('setting.')->group(function () {

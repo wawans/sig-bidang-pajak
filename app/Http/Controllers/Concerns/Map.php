@@ -79,16 +79,16 @@ trait Map
         return Cache::remember('setting.map.providers', now()->addMinutes(3), function () {
             return [
                 'google' => [
-                    'enabled' => config('setting.map.google.enabled'),
-                    'token' => config('setting.map.google.token'),
+                    'enabled' => !!config('services.map.google.token'),
+                    'token' => config('services.map.google.token'),
                 ],
                 'microsoft' => [
-                    'enabled' => config('setting.map.microsoft.enabled'),
-                    'token' => config('setting.map.microsoft.token'),
+                    'enabled' => !!config('services.map.microsoft.token'),
+                    'token' => config('services.map.microsoft.token'),
                 ],
                 'mapbox' => [
-                    'enabled' => config('setting.map.mapbox.enabled'),
-                    'token' => config('setting.map.mapbox.token'),
+                    'enabled' => !!config('services.map.mapbox.token'),
+                    'token' => config('services.map.mapbox.token'),
                 ],
             ];
         });
