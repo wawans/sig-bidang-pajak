@@ -35,9 +35,24 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $impersonated = session()->has('impersonated_by') ? ['impersonatedBy' => session('impersonated_by')] : [];
+        $recaptcha = config('services.recaptcha.enabled', false) && ! blank(config('services.recaptcha.site_key')) ? ['recaptchaSiteKey' => config('services.recaptcha.site_key')] : [];
+
         return [
             ...parent::share($request),
-            //
+            ...$impersonated,
+            ...$recaptcha,
+            'name' => config('app.name'),
+            'auth' => fn (): array => [
+                'user' => \Auth::check() ? $request->user()->toAuth() : null,
+            ],
+            'flash' => fn (): array => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+            ],
+            'ziggy' => fn (): array => [
+                'location' => $request->url(),
+            ],
         ];
     }
 }

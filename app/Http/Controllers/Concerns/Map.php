@@ -79,15 +79,15 @@ trait Map
         return Cache::remember('setting.map.providers', now()->addMinutes(3), function () {
             return [
                 'google' => [
-                    'enabled' => !!config('services.map.google.token'),
+                    'enabled' => ! blank(config('services.map.google.token')),
                     'token' => config('services.map.google.token'),
                 ],
                 'microsoft' => [
-                    'enabled' => !!config('services.map.microsoft.token'),
+                    'enabled' => ! blank(config('services.map.microsoft.token')),
                     'token' => config('services.map.microsoft.token'),
                 ],
                 'mapbox' => [
-                    'enabled' => !!config('services.map.mapbox.token'),
+                    'enabled' => ! blank(config('services.map.mapbox.token')),
                     'token' => config('services.map.mapbox.token'),
                 ],
             ];
