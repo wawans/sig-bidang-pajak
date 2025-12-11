@@ -1,3 +1,6 @@
 [submodule "resources"]
 	path = resources
 	url = https://github.com/wawans/sig-bidang-pajak-ui.git
+[submodule "database/seeders"]
+	path = database/seeders
+	url = https://github.com/wawans/sig-bidang-pajak-seeder.git
