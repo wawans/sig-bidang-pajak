@@ -1,19 +1,18 @@
 <?php
 
-use App\Http\Controllers\MapController;
-use App\Http\Controllers\Settings\IndexSettingController;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use App\Http\Controllers\Account\GeneralAccountController;
 use App\Http\Controllers\Account\PasswordAccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayerController;
 use App\Http\Controllers\LayerGroupController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\Permission\PermissionController;
 use App\Http\Controllers\Permission\RoleController;
+use App\Http\Controllers\Settings\IndexSettingController;
 use App\Http\Controllers\StyleController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Impersonate;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::prefix('account')->name('account.')->group(function () {
@@ -55,6 +54,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 });
-
 
 require __DIR__.'/auth.php';

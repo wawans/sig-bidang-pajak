@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\GeoserverApiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayerController;
@@ -11,7 +9,7 @@ use App\Http\Controllers\Permission\PermissionController;
 use App\Http\Controllers\Permission\RoleController;
 use App\Http\Controllers\StyleController;
 use App\Http\Controllers\UserController;
-
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('map')->group(function () {
@@ -51,7 +49,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/layer/{layer}', 'layer')->name('layer');
         Route::get('/', 'index')->name('index');
     });
-
-
 
 });
