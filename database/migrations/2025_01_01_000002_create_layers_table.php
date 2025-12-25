@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('namespace', 225);
             $table->string('datasource', 30)->nullable();
             $table->string('geometry', 30)->nullable();
-            $table->string('geometryType', 30)->nullable();
+            $table->string('geometry_type', 30)->nullable();
             $table->json('properties')->nullable();
             $table->unsignedTinyInteger('zindex')->default(1);
             $table->boolean('writeable')->default(false);

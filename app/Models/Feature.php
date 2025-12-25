@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use App\Support\Eloquent\Concerns\HasUserTimestamps;
-use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Layer extends Model
+class Feature extends Model
 {
-    use Filterable;
     use HasUserTimestamps;
     use HasUuids;
 
@@ -22,17 +19,10 @@ class Layer extends Model
      */
     protected $fillable = [
         'uuid',
-        'name',
-        'namespace',
-        'datasource',
         'geometry',
-        'geometry_type',
+        'geometry_name',
         'properties',
-        'zindex',
-        'writeable',
-        'autoload',
-        'default_style_id',
-        'select_style_id',
+        'layer_id',
     ];
 
     /**
@@ -43,9 +33,8 @@ class Layer extends Model
     protected function casts(): array
     {
         return [
+            'geometry' => 'json',
             'properties' => 'json',
-            'writeable' => 'boolean',
-            'autoload' => 'boolean',
         ];
     }
 
@@ -67,23 +56,8 @@ class Layer extends Model
         return 'uuid';
     }
 
-    public function defaultStyle(): BelongsTo
+    public function layer(): BelongsTo
     {
-        return $this->belongsTo(Style::class, 'default_style_id');
-    }
-
-    public function selectStyle(): BelongsTo
-    {
-        return $this->belongsTo(Style::class, 'select_style_id');
-    }
-
-    public function member(): HasMany
-    {
-        return $this->hasMany(LayerGroupMember::class, 'layer_id');
-    }
-
-    public function group()
-    {
-        return $this->member()->with('group');
+        return $this->belongsTo(Layer::class, 'layer_id');
     }
 }
