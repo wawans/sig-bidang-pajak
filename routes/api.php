@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\GeoJsonApiController;
 use App\Http\Controllers\API\GeoserverApiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayerController;
@@ -48,6 +49,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/feature/{layer}', 'feature')->name('feature');
         Route::get('/layer/{layer}', 'layer')->name('layer');
         Route::get('/', 'index')->name('index');
+    });
+
+    Route::prefix('geojson')->name('geojson.')->controller(GeoJsonApiController::class)->group(function () {
+        Route::delete('/{layer}/{feature}', 'destroy')->name('destroy');
+        Route::put('/{layer}/{feature}', 'update')->name('update');
+        Route::post('/{layer}', 'store')->name('store');
+        Route::get('/feature/{feature}', 'feature')->withoutMiddleware('auth:sanctum')->name('feature');
+        Route::get('/layer/{layer}', 'layer')->withoutMiddleware('auth:sanctum')->name('layer');
+        Route::get('/', 'index')->withoutMiddleware('auth:sanctum')->name('index');
     });
 
 });

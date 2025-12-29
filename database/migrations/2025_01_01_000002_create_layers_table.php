@@ -28,8 +28,8 @@ return new class extends Migration
             $table->userTimestamps();
 
             // fk
-            $table->foreign('default_style_id')->references('id')->on('styles')->nullOnDelete();
-            $table->foreign('select_style_id')->references('id')->on('styles')->nullOnDelete();
+            $table->foreign('default_style_id')->references('id')->on('styles')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('select_style_id')->references('id')->on('styles')->cascadeOnUpdate()->nullOnDelete();
             $table->foreignUserTimestamps();
         });
     }

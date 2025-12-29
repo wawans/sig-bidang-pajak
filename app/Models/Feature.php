@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Support\Eloquent\Concerns\HasUserTimestamps;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,6 +25,8 @@ class Feature extends Model
         'properties',
         'layer_id',
     ];
+
+    protected $appends = ['type'];
 
     /**
      * Get the attributes that should be cast.
@@ -59,5 +62,10 @@ class Feature extends Model
     public function layer(): BelongsTo
     {
         return $this->belongsTo(Layer::class, 'layer_id');
+    }
+
+    protected function type(): Attribute
+    {
+        return Attribute::get(fn () => 'Feature');
     }
 }

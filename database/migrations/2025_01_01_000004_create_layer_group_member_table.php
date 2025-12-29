@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('layer_group_member', function (Blueprint $table) {
             $table->id();
             $table->uuid()->nullable()->unique();
-            $table->foreignId('layer_group_id')->constrained();
-            $table->foreignId('layer_id')->constrained();
+            $table->foreignId('layer_group_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('layer_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->userTimestamps();
 
             // fk

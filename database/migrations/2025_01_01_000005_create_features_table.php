@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('geometry', 30)->nullable();
             $table->string('geometry_name', 30)->nullable();
             $table->json('properties')->nullable();
-            $table->foreignId('layer_id')->constrained();
+            $table->foreignId('layer_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->userTimestamps();
 
             // fk
