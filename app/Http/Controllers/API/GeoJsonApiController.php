@@ -36,7 +36,7 @@ class GeoJsonApiController extends Controller
             'crs' => [
                 'type' => 'name',
                 'properties' => [
-                     'name'=> 'urn:ogc:def:crs:EPSG::3857',
+                    'name' => 'urn:ogc:def:crs:EPSG::3857',
                 ],
             ],
         ];
