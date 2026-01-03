@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Account\GeneralAccountController;
 use App\Http\Controllers\Account\PasswordAccountController;
+use App\Http\Controllers\ColorGroupController;
+use App\Http\Controllers\ColorItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayerController;
 use App\Http\Controllers\LayerGroupController;
@@ -40,6 +42,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::resource('layer', LayerController::class)->names('layer');
             Route::resource('layer-group', LayerGroupController::class)->names('layer-group');
             Route::resource('style', StyleController::class)->names('style');
+            Route::resource('color.item', ColorItemController::class)->names('color.item')->parameter('color', 'group');
+            Route::resource('color', ColorGroupController::class)->names('color')->parameter('color', 'group');
         });
 
         Route::name('setting.')->group(function () {
