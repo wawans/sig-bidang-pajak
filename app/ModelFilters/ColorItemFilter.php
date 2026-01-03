@@ -2,8 +2,10 @@
 
 namespace App\ModelFilters;
 
+use App\Models\Color\ColorItem;
 use EloquentFilter\ModelFilter;
 
+/** @mixin ColorItem */
 class ColorItemFilter extends ModelFilter
 {
     use Concerns\Searchable;
@@ -30,5 +32,10 @@ class ColorItemFilter extends ModelFilter
             'label',
             'color',
         ];
+    }
+
+    public function colorGroupId($value)
+    {
+        return $this->where('color_group_id', $value);
     }
 }

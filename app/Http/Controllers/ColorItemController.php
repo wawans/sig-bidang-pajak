@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Concerns\ApiTable;
 use App\Http\Requests\ColorItem\StoreColorItemRequest;
 use App\Http\Requests\ColorItem\UpdateColorItemRequest;
 use App\Models\Color\ColorGroup;
 use App\Models\Color\ColorItem;
 use App\Repositories\Color\ColorItemRepository;
+use App\Support\Response\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -15,8 +15,6 @@ use Inertia\Inertia;
 
 class ColorItemController extends Controller implements HasMiddleware
 {
-    use ApiTable;
-
     public function __construct(protected ColorItemRepository $repository) {}
 
     /**
@@ -49,9 +47,21 @@ class ColorItemController extends Controller implements HasMiddleware
     public function index(ColorGroup $group)
     {
         return Inertia::render('color-item/index', [
-            'table' => $this->repository->table(request()),
+            // 'table' => $this->repository->table(request()),
             'gate' => $this->gate(),
+            'group' => $group,
         ]);
+    }
+
+    public function table(ColorGroup $group)
+    {
+        $data = $this->repository->table(request()->mergeIfMissing(['colorGroupId' => $group->id])->collect());
+
+        if (method_exists($this, 'gate')) {
+            $data->put('gate', $this->gate());
+        }
+
+        return ApiResponse::make($data);
     }
 
     /**
@@ -69,9 +79,10 @@ class ColorItemController extends Controller implements HasMiddleware
      */
     public function store(StoreColorItemRequest $request, ColorGroup $group)
     {
-        $model = $this->repository->store($request->validated());
+        $model = $this->repository->store($request->validated(), $group);
 
-        return redirect()->route('colorItem.show', $model->getRouteKey())->with('success', 'Entri berhasil disimpan.');
+        // return redirect()->route('colorItem.show', $model->getRouteKey())->with('success', 'Entri berhasil disimpan.');
+        return redirect()->back()->with('success', 'Entri berhasil disimpan.');
     }
 
     /**
@@ -103,7 +114,8 @@ class ColorItemController extends Controller implements HasMiddleware
     {
         $model = $this->repository->edit($request->validated(), $item);
 
-        return redirect()->route('colorItem.show', $model->getRouteKey())->with('success', 'Ubah Entri berhasil disimpan.');
+        // return redirect()->route('colorItem.show', $model->getRouteKey())->with('success', 'Ubah Entri berhasil disimpan.');
+        return redirect()->back()->with('success', 'Ubah Entri berhasil disimpan.');
     }
 
     /**
@@ -113,6 +125,7 @@ class ColorItemController extends Controller implements HasMiddleware
     {
         $this->repository->destroy($item);
 
-        return redirect()->route('colorItem.index')->with('success', 'Entri berhasil dihapus.');
+        // return redirect()->route('colorItem.index')->with('success', 'Entri berhasil dihapus.');
+        return redirect()->back()->with('success', 'Entri berhasil dihapus.');
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Repositories\Color;
 
+use App\Models\Color\ColorGroup;
 use App\Repositories\Concerns\WithTable;
 use App\Repositories\Repository;
+use Illuminate\Validation\ValidationException;
 
 /**
  * \App\Repositories\Color\ColorItemRepository
@@ -28,9 +30,25 @@ class ColorItemRepository extends Repository
      * @param  array  $attributes
      * @return \App\Models\Color\ColorItem
      */
-    public function store($attributes)
+    public function store($attributes, ColorGroup $group)
     {
-        return $this->create($attributes);
+        $attributes = collect($attributes);
+
+        $exist = $this->query()->where('color_group_id', $group->id)
+            ->where('label', $attributes['label'])
+            ->first();
+
+        if ($exist) {
+            throw ValidationException::withMessages([
+                'label' => 'Data Sudah Ada',
+            ]);
+        }
+
+        return $this->create(
+            $attributes->merge([
+                'color_group_id' => $group->id,
+            ])->toArray()
+        );
     }
 
     /**

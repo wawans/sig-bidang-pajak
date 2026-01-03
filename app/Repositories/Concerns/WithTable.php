@@ -62,10 +62,10 @@ trait WithTable
 
         $result = $this->tableQuery()
             ->when(method_exists($this, 'provideFilter') && ! blank($filters), function ($query) use ($filters) {
-                $query->filter($filters, $this->provideFilter());
+                $query->filter(is_array($filters) ? $filters : $filters->all(), $this->provideFilter());
             })
             ->when(! method_exists($this, 'provideFilter') && property_exists($this, 'model') && method_exists($this->model, 'provideFilter') && ! blank($filters), function ($query) use ($filters) {
-                $query->filter($filters);
+                $query->filter(is_array($filters) ? $filters : $filters->all());
             })
             ->when(! is_null($sortBy) && ! blank($sortBy), function ($query) use ($sortBy, $sortDirection) {
                 /** @var \Illuminate\Database\Eloquent\Builder $query */
@@ -95,7 +95,7 @@ trait WithTable
             $this->sortDirectionName => $sortDirection,
         ];
 
-        return collect(['filters' => array_merge($d, $filters)])->merge($result);
+        return collect(['filters' => array_merge($d, is_array($filters) ? $filters : $filters->all())])->merge($result);
     }
 
     public function toArray($model)

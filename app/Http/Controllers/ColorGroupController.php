@@ -7,6 +7,7 @@ use App\Http\Requests\ColorGroup\StoreColorGroupRequest;
 use App\Http\Requests\ColorGroup\UpdateColorGroupRequest;
 use App\Models\Color\ColorGroup;
 use App\Repositories\Color\ColorGroupRepository;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
@@ -47,7 +48,7 @@ class ColorGroupController extends Controller implements HasMiddleware
     public function index()
     {
         return Inertia::render('color-group/index', [
-            'table' => $this->repository->table(request()),
+            // 'table' => $this->repository->table(request()),
             'gate' => $this->gate(),
         ]);
     }
@@ -69,7 +70,8 @@ class ColorGroupController extends Controller implements HasMiddleware
     {
         $model = $this->repository->store($request->validated());
 
-        return redirect()->route('colorGroup.show', $model->getRouteKey())->with('success', 'Entri berhasil disimpan.');
+        // return redirect()->route('colorGroup.show', $model->getRouteKey())->with('success', 'Entri berhasil disimpan.');
+        return redirect()->back()->with('success', 'Entri berhasil disimpan.');
     }
 
     /**
@@ -101,16 +103,18 @@ class ColorGroupController extends Controller implements HasMiddleware
     {
         $model = $this->repository->edit($request->validated(), $group);
 
-        return redirect()->route('colorGroup.show', $model->getRouteKey())->with('success', 'Ubah Entri berhasil disimpan.');
+        // return redirect()->route('colorGroup.show', $model->getRouteKey())->with('success', 'Ubah Entri berhasil disimpan.');
+        return redirect()->back()->with('success', 'Ubah Entri berhasil disimpan.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ColorGroup $group)
+    public function destroy(Request $request, ColorGroup $group)
     {
         $this->repository->destroy($group);
 
-        return redirect()->route('colorGroup.index')->with('success', 'Entri berhasil dihapus.');
+        // return redirect()->route('colorGroup.index')->with('success', 'Entri berhasil dihapus.');
+        return redirect()->back()->with('success', 'Entri berhasil dihapus.');
     }
 }
