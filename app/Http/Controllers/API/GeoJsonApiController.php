@@ -15,7 +15,7 @@ class GeoJsonApiController extends Controller
      */
     public function feature(Request $request, Feature $feature)
     {
-        //
+        return ApiResponse::make($this->toFeatureJson($feature));
     }
 
     /**
@@ -49,7 +49,16 @@ class GeoJsonApiController extends Controller
      */
     public function store(Request $request, Layer $layer)
     {
-        //
+        $inputs = $request->validate([
+            'geometry' => 'required|array',
+            'properties' => 'required|array',
+        ]);
+
+        $feature = $layer->features()->create($inputs);
+
+        return ApiResponse::data([
+            'feature' => $this->toFeatureJson($feature),
+        ], 'Entri berhasil disimpan.');
     }
 
     /**
@@ -57,7 +66,21 @@ class GeoJsonApiController extends Controller
      */
     public function update(Request $request, Layer $layer, Feature $feature)
     {
-        //
+        $inputs = $request->validate([
+            'geometry' => 'required|array',
+            'properties' => 'required|array',
+        ]);
+
+        $properties = array_merge($feature->properties, $inputs['properties']);
+
+        $feature->fill([
+            'geometry' => $inputs['geometry'],
+            'properties' => $properties,
+        ])->save();
+
+        return ApiResponse::data([
+            'feature' => $this->toFeatureJson($feature),
+        ], 'Ubah Entri berhasil disimpan.');
     }
 
     /**
@@ -65,6 +88,30 @@ class GeoJsonApiController extends Controller
      */
     public function destroy(Request $request, Layer $layer, Feature $feature)
     {
-        //
+        $feature->delete();
+
+        return ApiResponse::data([
+            'feature' => $this->toFeatureJson(),
+        ], 'Entri berhasil dihapus.');
+    }
+
+    protected function toFeatureJson(?Feature $feature = null)
+    {
+        $features = is_null($feature) ? [] : [$feature];
+
+        return [
+            'type' => 'FeatureCollection',
+            'features' => $features,
+            'totalFeatures' => count($features),
+            'numberMatched' => count($features),
+            'numberReturned' => count($features),
+            'timeStamp' => now()->toISOString(),
+            'crs' => [
+                'type' => 'name',
+                'properties' => [
+                    'name' => 'urn:ogc:def:crs:EPSG::3857',
+                ],
+            ],
+        ];
     }
 }

@@ -26,6 +26,11 @@ class Feature extends Model
         'layer_id',
     ];
 
+    protected $attributes = [
+        'geometry_name' => 'geometry',
+        'properties' => '{}',
+    ];
+
     protected $appends = ['type'];
 
     /**
@@ -54,10 +59,10 @@ class Feature extends Model
     /**
      * Get the route key for the model.
      */
-    public function getRouteKeyName(): string
-    {
-        return 'uuid';
-    }
+    //    public function getRouteKeyName(): string
+    //    {
+    //        return 'uuid';
+    //    }
 
     public function layer(): BelongsTo
     {

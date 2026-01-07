@@ -86,4 +86,9 @@ class Layer extends Model
     {
         return $this->member()->with('group');
     }
+
+    public function features(): HasMany
+    {
+        return $this->hasMany(Feature::class, 'layer_id');
+    }
 }
