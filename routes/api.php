@@ -59,6 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{layer}/{feature}', 'destroy')->name('destroy');
         Route::put('/{layer}/{feature}', 'update')->name('update');
         Route::post('/{layer}', 'store')->name('store');
+        Route::post('/transactions/{layer}', 'stores')->name('stores');
         Route::get('/feature/{feature}', 'feature')->withoutMiddleware('auth:sanctum')->name('feature');
         Route::get('/layer/{layer}', 'layer')->withoutMiddleware('auth:sanctum')->name('layer');
         Route::get('/', 'index')->withoutMiddleware('auth:sanctum')->name('index');
