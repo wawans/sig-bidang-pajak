@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Concerns;
 
+use App\Models\Color\ColorGroup;
 use App\Models\Layer;
 use App\Models\LayerGroup;
 use App\Models\LayerGroupMember;
@@ -11,6 +12,13 @@ use Illuminate\Support\Facades\Cache;
 
 trait Map
 {
+    protected function colors()
+    {
+        return Cache::remember('color.all', now()->addMinutes(3), function () {
+            return ColorGroup::with('items')->orderBy('name')->get();
+        });
+    }
+
     protected function styles()
     {
         return Cache::remember('style.all', now()->addMinutes(3), function () {
@@ -97,6 +105,7 @@ trait Map
     protected function data()
     {
         return [
+            'colors' => $this->colors(),
             'styles' => $this->styles(),
             'layers' => $this->layers(),
             'tree' => $this->tree(),

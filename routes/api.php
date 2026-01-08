@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\API\GeoJsonApiController;
 use App\Http\Controllers\API\GeoserverApiController;
+use App\Http\Controllers\ColorGroupController;
+use App\Http\Controllers\ColorItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LayerController;
 use App\Http\Controllers\LayerGroupController;
@@ -23,6 +25,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('layer', [LayerController::class, 'table'])->name('layer.table');
             Route::get('layer-group', [LayerGroupController::class, 'table'])->name('layer-group.table');
             Route::get('style', [StyleController::class, 'table'])->name('style.table');
+            Route::get('color-item/{group}', [ColorItemController::class, 'table'])->name('color.item.table');
+            Route::get('color', [ColorGroupController::class, 'table'])->name('color.table');
         });
 
         Route::get('role', [RoleController::class, 'table'])->name('role.table');
@@ -55,6 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{layer}/{feature}', 'destroy')->name('destroy');
         Route::put('/{layer}/{feature}', 'update')->name('update');
         Route::post('/{layer}', 'store')->name('store');
+        Route::post('/transactions/{layer}', 'stores')->name('stores');
         Route::get('/feature/{feature}', 'feature')->withoutMiddleware('auth:sanctum')->name('feature');
         Route::get('/layer/{layer}', 'layer')->withoutMiddleware('auth:sanctum')->name('layer');
         Route::get('/', 'index')->withoutMiddleware('auth:sanctum')->name('index');

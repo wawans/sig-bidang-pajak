@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('features', function (Blueprint $table) {
+        Schema::create('color_items', function (Blueprint $table) {
             $table->id();
             $table->uuid()->nullable()->unique();
-            $table->json('geometry')->nullable();
-            $table->string('geometry_name', 30)->nullable();
-            $table->json('properties')->nullable();
-            $table->foreignId('layer_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('color_group_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('label', 30);
+            $table->string('color', 30);
             $table->userTimestamps();
 
             // fk
             $table->foreignUserTimestamps();
+
+            // uk
+            $table->unique(['color_group_id', 'label'], 'color_items_unique_1');
         });
     }
 
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('features');
+        Schema::dropIfExists('color_items');
     }
 };

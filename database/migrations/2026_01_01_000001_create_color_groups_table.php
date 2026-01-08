@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('features', function (Blueprint $table) {
+        Schema::create('color_groups', function (Blueprint $table) {
             $table->id();
             $table->uuid()->nullable()->unique();
-            $table->json('geometry')->nullable();
-            $table->string('geometry_name', 30)->nullable();
-            $table->json('properties')->nullable();
-            $table->foreignId('layer_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('name', 30)->unique();
+            $table->string('label', 125)->nullable();
+            $table->string('description')->nullable();
             $table->userTimestamps();
 
             // fk
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('features');
+        Schema::dropIfExists('color_groups');
     }
 };
